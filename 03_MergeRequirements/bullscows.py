@@ -72,4 +72,5 @@ if __name__ == '__main__':
     if args.length is not None:
         dictionary = [word for word in dictionary if len(word) == args.length]
 
-    gameplay(ask, inform, dictionary)
+    tries = gameplay(ask, inform, dictionary)
+    print(f"Слово найдено, было использовано {tries} попыток")
