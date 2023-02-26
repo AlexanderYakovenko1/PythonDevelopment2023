@@ -1,10 +1,23 @@
 from argparse import ArgumentParser
 from collections import Counter
+from io import StringIO
 from pathlib import Path
 from random import choice
 import urllib.request
 
-from cowsay import cowsay, list_cows
+from cowsay import cowsay, list_cows, read_dot_cow
+
+
+MY_COW = read_dot_cow(StringIO("""
+$the_cow = <<EOC;
+         $thoughts
+          $thoughts
+         _____
+          OwO
+         /| |\\
+          ^ ^
+EOC
+"""))
 
 
 def parse_args():
@@ -17,10 +30,10 @@ def parse_args():
 
 def ask(prompt: str, valid: list[str] = None) -> str:
     while True:
-        print(cowsay(prompt, choice(list_cows())))
+        print(cowsay(prompt, cowfile=MY_COW))
         guess = input()
         if valid is not None and guess not in valid:
-            print(cowsay('Такого слова нет в словаре', choice(list_cows())))
+            print(cowsay('Такого слова нет в словаре', cowfile=MY_COW))
             continue
         else:
             break
