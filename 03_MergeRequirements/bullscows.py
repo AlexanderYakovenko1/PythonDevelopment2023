@@ -4,6 +4,8 @@ from pathlib import Path
 from random import choice
 import urllib.request
 
+from cowsay import cowsay, list_cows
+
 
 def parse_args():
     parser = ArgumentParser("Play a game of bullcows")
@@ -15,9 +17,10 @@ def parse_args():
 
 def ask(prompt: str, valid: list[str] = None) -> str:
     while True:
-        guess = input(prompt)
+        print(cowsay(prompt, choice(list_cows())))
+        guess = input()
         if valid is not None and guess not in valid:
-            print('Такого слова нет в словаре')
+            print(cowsay('Такого слова нет в словаре', choice(list_cows())))
             continue
         else:
             break
@@ -26,7 +29,7 @@ def ask(prompt: str, valid: list[str] = None) -> str:
 
 
 def inform(format_string: str, bulls: int, cows: int) -> None:
-    print(format_string.format(bulls, cows))
+    print(cowsay(format_string.format(bulls, cows), choice(list_cows())))
 
 
 def bullscows(guess: str, secret: str) -> (int, int):
