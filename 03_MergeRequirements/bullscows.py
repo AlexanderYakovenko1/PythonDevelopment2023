@@ -16,7 +16,7 @@ def parse_args():
 def ask(prompt: str, valid: list[str] = None) -> str:
     while True:
         guess = input(prompt)
-        if valid is not None or guess not in valid:
+        if valid is not None and guess not in valid:
             print('Такого слова нет в словаре')
             continue
         else:
@@ -40,13 +40,17 @@ def bullscows(guess: str, secret: str) -> (int, int):
             
 
 def gameplay(ask: callable, inform: callable, words: list[str]) -> int:
+    if len(words) == 0:
+        raise ValueError("Dictionary is empty")
+
     secret = choice(words)
     tries = 0
 
     while True:
         tries += 1
         guess = ask("Введите слово: ", words)
-        inform("Быки: {}, Коровы: {}", *bullscows(guess, secret))
+        bulls, cows = bullscows(guess, secret)
+        inform("Быки: {}, Коровы: {}", bulls, cows)
 
         if bulls == len(secret):
             break
